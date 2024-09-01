@@ -1,0 +1,55 @@
+
+
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block main %}
+
+
+{% load static %}
+
+<html lang="ru">
+
+<head>
+    <meta charset = "UTF-8">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>
+        Зарегистрировать учетную запись
+    </title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="filter"></div>
+
+    <div class="form-container">
+        <!-- templates/registration/login.html -->
+        {{ error }}
+        <h2>Зарегистрировать учетную запись</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <p>Введите ваше Имя<p>
+            <input type="text" name="username">
+            <p>
+            <p>Введите ваш Пароль<p>
+            <input type="password" name="password1">
+        </p>
+            <p>Повторите ваш Пароль<p>
+            <input type="password" name="password2">
+        </p>
+                <button type="submit">Зарегистрировать</button>
+            </p>
+        </form>
+
+    </div>
+
+</div>
+</body>
+
+{% endblock %}
+
+</html>
+
+Ooostroidom@mail.ru

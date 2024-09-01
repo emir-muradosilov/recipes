@@ -1,0 +1,51 @@
+
+
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block main %}
+
+
+{% load static %}
+
+<html lang="ru">
+
+<head>
+    <meta charset = "UTF-8">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>
+        Вход в учетную запись
+    </title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="filter"></div>
+
+    <div class="form-container">
+<!-- templates/registration/login.html -->
+        {{ error }}
+<h2>Вход в учетную запись</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <p>Введите ваш Логин<p>
+    <input type="text" name="login">
+    <p>
+    <p>Введите ваш Пароль<p>
+    <input type="password" name="password">
+    </p>
+    <p>
+    <button type="submit">Войти</button>
+    </p>
+</form>
+
+    </div>
+
+</div>
+</body>
+
+{% endblock %}
+
+</html>
