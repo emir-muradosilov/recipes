@@ -2,6 +2,9 @@
 
 body{
 background-color: #ffe8f7;
+max-width: 960px;
+position: absolute;
+margin: 0% 15% 0% 15%;
 }
 h1{
 font-family: "Derby Family";

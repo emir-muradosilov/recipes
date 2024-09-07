@@ -22,7 +22,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name = 'home'),
+    path('', views.home, name='home'),
+    path('recept/', include('recipe.urls'), name='recept'),
 
 #    path('accounts/', include('django.contrib.auth.urls')),
     path('login/', views.login_user, name = 'login'),
@@ -30,3 +31,5 @@ urlpatterns = [
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

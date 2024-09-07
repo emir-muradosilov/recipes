@@ -1,0 +1,36 @@
+{% extends 'base_recipe.html' %}
+{% block main %}
+
+<br>
+<div id="title">
+    <header>
+<h2>{{ recipe.recept_name }}</h2> </a>
+    </header>
+</div>
+<img src = "{{ recipe.img.url }}" height="400px" width="600px">
+
+<br>
+
+<h4>Автор: {{ recipe.author }}
+    Дата: {{ recipe.date }}</h4>
+<div class="Details">
+    <h3>Rating</h3>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="far fa-star"></i>
+</div>
+<br>
+
+<div id="details">
+
+    <div class="Details">
+{{ recipe.recept_text }}
+    </div>
+</div>
+
+<br>
+
+
+{% endblock %}

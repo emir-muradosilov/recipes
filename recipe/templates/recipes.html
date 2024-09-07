@@ -1,0 +1,48 @@
+{% extends 'base_recipe.html' %}
+{% block main %}
+
+
+{% for recipes in recipe %}
+
+<div id="card-wrapper">
+    <div class="inner-card">
+        <!--top right btn-->
+<br>
+<a href="{% url 'recept_id' recipes.id %}"> <h3>{{ recipes.recept_name }}</h3> </a>
+        <br>
+<img src = "{{ recipes.img.url }}" height="200px" width="300px">
+<br>
+
+<h6>Автор: {{ recipes.author }}
+    Дата:{{ recipes.date }}</h6>
+<br>
+
+<div id="details">
+    <div class="Details">
+        <h3>Rating</h3>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+    </div>
+
+</div>
+
+
+</div>
+<br>
+    <div class="textst">
+
+{{ recipes.recept_text }}
+    </div>
+<br>
+<div class="start-btn"><a href="{% url 'recept_id' recipes.id %}">Читать подробнее<i class="fas fa-long-arrow-alt-right"></i></a></div>
+
+</div>
+
+{% endfor %}
+
+    </div></div>
+
+{% endblock %}
