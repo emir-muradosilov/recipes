@@ -1,7 +1,50 @@
 {% extends 'base_recipe.html' %}
-{% block main %}
+
+{% block left-area %}
+
+
+{% endblock %}
 
 
 
+{% block center-area %}
+
+<br><br><br>
+{% for recipes in recipe %}
+
+<div id="card-wrapper">
+    <div class="card text-center">
+        <div class="card-header">
+            <a href="{% url 'recept_id' recipes.id %}"> <h4>{{ recipes.recept_name }}</h4> </a>
+        </div>
+        <div class="card-body">
+
+            {% if recipes.img %}
+            <img src = "{{ recipes.img.url }}" height="200px" width="300px">
+            {% else %}
+            <p>Нет изображения</p>
+            {% endif %}
+
+        <h6>Автор: {{ recipes.author }}
+            Дата:{{ recipes.date }}</h6>
+        <br>
+            <h6 class="card-title"> {{ recipes.title }}</h6>
+            <br>
+    <div class="textst">
+        {{ recipes.recept_text }}
+    </div>
+    <br>
+        <a href="{% url 'recept_id' recipes.id %}" class="btn btn-primary">Читать подробнее</a>
+    </div>
+</div>
+</div>
+<br><br><br>
+{% endfor %}
+
+
+</div></div>
+{% endblock %}
+
+{% block right-area %}
 
 {% endblock %}

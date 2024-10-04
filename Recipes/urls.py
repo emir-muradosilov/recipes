@@ -20,16 +20,28 @@ from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('recept/', include('recipe.urls'), name='recept'),
 
-#    path('accounts/', include('django.contrib.auth.urls')),
+# Работа с рецептами
+    path('recept/', include('recipe.urls'), name='recept'),
+    path('recept/', include('recipe.urls'), name='add_recipe'),
+    path('recept/', include('recipe.urls'), name = 'user_recept'),
+    path('/delete_recipe/<int:pk>/', include('recipe.urls'), name='delete_recipe'),
+    path('update/<int:pk>/', include('recipe.urls'), name='update'),
+#    path('update/<int:pk>/', views.ReceptUpdateView.as_view(), name='update'),
+
+# Регистрация и Аутентификация
     path('login/', views.login_user, name = 'login'),
     path('signup/', views.registration_user, name = 'signup'),
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+'''
+# включаем возможность обработки картинок
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+'''

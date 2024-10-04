@@ -6,10 +6,16 @@ from django.contrib.auth import logout
 from django.db import Error
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+
+from recipe.models import Recept
+
+
 # Create your views here.
 
+
 def home(request):
-    return render(request, 'home.html')
+    recipe = Recept.objects.order_by('-date')[0:7]
+    return render(request, 'home.html',{'recipe':recipe})
 
 
 def registration_user(request):
@@ -51,4 +57,5 @@ def signup(request):
         return redirect(request, 'registration/logout.html')
     else:
         return logout(request, 'home.html')
+
 

@@ -1,36 +1,39 @@
 {% extends 'base_recipe.html' %}
-{% block main %}
 
+{% block left-area %}
+
+{% endblock %}
+
+{% block center-area %}
 <br>
 <div id="title">
     <header>
-<h2>{{ recipe.recept_name }}</h2> </a>
+        <h2>{{ recept.recept_name }}</h2> </a>
     </header>
 </div>
-<img src = "{{ recipe.img.url }}" height="400px" width="600px">
+<br>
+{% if recept.img %}
+<img src = "{{ recept.img.url }}" height="200px" width="300px">
+{% else %}
+<p>Нет изображения</p>
+{% endif %}
+<h6>Автор: {{ recept.author }}
+    Дата: {{ recept.date }}</h6>
 
 <br>
-
-<h4>Автор: {{ recipe.author }}
-    Дата: {{ recipe.date }}</h4>
-<div class="Details">
-    <h3>Rating</h3>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="far fa-star"></i>
-</div>
-<br>
-
 <div id="details">
-
     <div class="Details">
-{{ recipe.recept_text }}
+{{ recept.recept_text }}
     </div>
 </div>
+    <br>
 
+{% if user.is_authenticated %}
+    {% if user == recept.author %}
+
+<a href="{% url 'update' recept.id %}" class="btn btn-primary">Редактировать</a>
+    {% endif %}
+{% endif %}
 <br>
-
 
 {% endblock %}

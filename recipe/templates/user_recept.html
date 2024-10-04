@@ -1,0 +1,64 @@
+{% extends 'base_recipe.html' %}
+
+{% block left-area %}
+
+{% endblock %}
+
+{% block center-area %}
+
+
+
+
+<br><br><br>
+{% for recipt in user_recepts %}
+
+
+<div id="card-wrapper">
+    <div class="card text-center">
+        <div class="card-header">
+            <a href="{% url 'recept_id' recipt.id %}"> <h4>{{ recipt.recept_name }}</h4> </a>
+        </div>
+        <div class="card-body">
+            {% if recipt.img %}
+            <img src = "{{ recipes.img.url }}" height="200px" width="300px">
+            {% else %}
+            <p>Нет изображения</p>
+            {% endif %}
+            <h6>Автор: {{ recipt.author }}
+                Дата:{{ recipt.date }}</h6>
+            <br>
+            <h6 class="card-title"> {{ recipt.title }}</h6>
+            <br>
+            <div class="textst">
+                {{ recipt.recept_text }}
+            </div>
+            <br>
+            <a href="{% url 'recept_id' recipt.id %}" class="btn btn-primary">Читать подробнее</a>
+            <br><br>
+
+            <form method = 'POST' action="{% url 'delete_recipe' recipt.id %}">
+                {% csrf_token %}
+                <button type="submit" name="delete" class="btn btn-primary">Удалить</button>
+            </form>
+<br>
+            <form method = 'get' action="{% url 'update' recipt.id %}">
+                {% csrf_token %}
+                <button type="submit" name="recept_id" class="btn btn-primary">Редактировать</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<br><br><br>
+{% endfor %}
+
+
+
+
+
+</div></div>
+{% endblock %}
+
+{% block right-area %}
+
+{% endblock %}

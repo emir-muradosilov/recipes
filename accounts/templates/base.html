@@ -3,18 +3,20 @@
 <html  lang="ru">
 <head>
 
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base_recipe.css' %}">
 
-    <title>Django Авторизация</title>
+    <title>Django Проект</title>
 </head>
 
-<body>
+<body class="body">
 
 <div  class="container">
     <div  class="row justify-content-center">
         <ul>
             <li><a href="{% url 'home' %}">Главная</a></li>
             <li><a href="{% url 'recept' %}">Рецепты</a></li>
+            <li><a href="{% url 'add_recipe' %}">Добавить Рецепт</a></li>
+
 <!--
             <li><a href="{% url 'login' %}">Войти</a></li>
             <li><a href="{% url 'signup' %}">Зарегистрироваться</a></li>
@@ -23,7 +25,7 @@
             <li class="right-search" style="float: right;"><input type="text" placeholder="Поиск по сайту ..."></li>
 
             {% if user.is_authenticated %}
-            <li class="right" style="float: right;"><a class="nav-link"> {{ user.username }} </a> </li>
+            <li class="right" style="float: right;"><a class="nav-link">Логин:{{ user.username }} </a> </li>
             <li class="right" style="float: right;">
 
                 <form method="POST" action="{% url 'logout' %}">
