@@ -1,13 +1,9 @@
 
-from django.urls import path, include
-from accounts import views as accounts_views
-from django.conf.urls.static import static
-from django.conf import settings
+from django.urls import path
 from . import views
 
 
 urlpatterns = [
-
 #    path('', views.recept, name='recept'),
     path('add_recipe', views.add_recipe, name='add_recipe'),
     path('<int:pk>/', views.ReceptDetailView.as_view(), name='recept_id'),

@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     title = models.CharField(max_length=255, verbose_name='Категории')
-#    description = models.CharField(max_length=255, verbose_name='description')
 
     def __str__(self):
         return self.title
