@@ -24,7 +24,9 @@ from django.conf import settings
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('', views.PageBuilder, name='home'),
+    path('<int:pk>', views.LeftMenu, name='category'),
+#    path('', include('recipe.urls'), name='home'),
 
 # Работа с рецептами
     path('recept/', include('recipe.urls'), name='recept'),
@@ -39,9 +41,7 @@ urlpatterns = [
     path('signup/', views.registration_user, name = 'signup'),
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-'''
-# включаем возможность обработки картинок
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-'''

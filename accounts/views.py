@@ -7,15 +7,30 @@ from django.db import Error
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 
-from recipe.models import Recept
+from recipe.models import Recept, Category
 
 
 # Create your views here.
 
+def PageBuilder(request):
+    recipts = Recept.objects.filter(is_published=True)
+    categorys = Category.objects.all()
+    page = {
+        'title': f"Главная страница",
+        'recipts': recipts,
+        'categorys': categorys,
+    }
+    return render(request, 'home.html', page)
 
-def home(request):
-    recipe = Recept.objects.order_by('-date')[0:7]
-    return render(request, 'home.html',{'recipe':recipe})
+def LeftMenu(request, pk):
+    recipts = Recept.objects.filter(is_published=True, category=pk)
+    categorys = Category.objects.all()
+    page = {
+        'title': f"{Category.objects.get(id=pk)}",
+        'recipts': recipts,
+        'categorys': categorys,
+    }
+    return render(request, 'home.html', page)
 
 
 def registration_user(request):

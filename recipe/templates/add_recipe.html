@@ -1,8 +1,5 @@
 {% extends 'base_recipe.html' %}
-{% block left-area %}
 
-
-{% endblock %}
 
 
 
@@ -24,6 +21,10 @@
     {{ ReceptForms.description }}    <br>
     <h6>Введите сам рецепт</h6>
     {{ ReceptForms.recept_text }}    <br>
+    <h6>Публиковать рецепт?</h6>
+    {{ ReceptForms.is_published }}    <br>
+    <h6>Выберите категорию</h6>
+    {{ ReceptForms.category }}    <br><br>
     <h6>Добавьте фото готового блюда (Не обязательное поле)</h6>
     {{ ReceptForms.img }}
     <br><br>

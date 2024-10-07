@@ -6,7 +6,7 @@ from django import forms
 class ReceptForms(ModelForm):
     class Meta:
         model = Recept
-        fields = ['recept_name','title','description','recept_text','img',]
+        fields = ['recept_name','title','description','recept_text', 'is_published', 'category', 'img',]
 
         widgets = {
             'recept_name': TextInput(attrs={

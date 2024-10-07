@@ -1,9 +1,5 @@
 {% extends 'base_recipe.html' %}
 
-{% block left-area %}
-
-{% endblock %}
-
 {% block center-area %}
 
 
@@ -20,7 +16,7 @@
         </div>
         <div class="card-body">
             {% if recipt.img %}
-            <img src = "{{ recipes.img.url }}" height="200px" width="300px">
+            <img src = "{{ recipt.img.url }}" height="200px" width="300px">
             {% else %}
             <p>Нет изображения</p>
             {% endif %}

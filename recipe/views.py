@@ -1,18 +1,16 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from .models import Recept
+from .models import Recept, Category
 from .forms import ReceptForms
 
 from django.views.generic import UpdateView, DetailView, DeleteView
 
 # Create your views here.
 
+
 # Отображение всех рецептов
-def recept(request):
-    recipe = Recept.objects.all()
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
+
 
 # Отображение конкретного рецепта по id (pk)
 class ReceptDetailView(DetailView):
@@ -78,7 +76,7 @@ def add_recipe(request):
     if request.method == 'POST':
         try:
             form = ReceptForms(request.POST, request.FILES)
-            print(request.POST['img'])
+
             if form.is_valid():
                 new_recept = form.save(commit=False)
                 new_recept.author = request.user
@@ -89,5 +87,45 @@ def add_recipe(request):
                           {'ReceptForms': ReceptForms, 'error': f'Ошибка. Введены некоректные данные! {error}'}, )
     else:
         return render(request, 'add_recipe.html', {'error': 'Что бы добавить рецепт нужно авторизоваться'})
+
+
+
+def first_dish(request):
+    recipe = Recept.objects.filter(category=1, is_published=True)
+    return render(request, 'recipes.html',
+                  {'recipe':recipe})
+def second_dish(request):
+    recipe = Recept.objects.filter(category=2, is_published=True)
+    return render(request, 'recipes.html',
+                  {'recipe':recipe})
+
+def salat(request):
+    recipe = Recept.objects.filter(category=5, is_published=True)
+    return render(request, 'recipes.html',
+                  {'recipe':recipe})
+def dessert(request):
+    recipe = Recept.objects.filter(category=3, is_published=True)
+    return render(request, 'recipes.html',
+                  {'recipe':recipe})
+def drinks(request):
+    recipe = Recept.objects.filter(category=4, is_published=True)
+    return render(request, 'recipes.html',
+                  {'recipe':recipe})
+
+
+def PageBuilder(request):
+    recipts = Recept.objects.filter(is_published=True)
+    categorys = Category.objects.filter(is_published=True)
+    page = {
+        'title': f"Главная страница",
+        'recipts': recipts,
+        'categorys': categorys,
+#        'title': f"{category[pk].title}",
+#        'description': f"{category[pk].description}",
+    }
+    return render(request, 'home.html', {'title': "Главная страница", 'recipts': recipts, 'categorys': categorys,})
+
+
+
 
 

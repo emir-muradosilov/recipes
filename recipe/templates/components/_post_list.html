@@ -1,0 +1,15 @@
+
+{% for recipt in recipts %}
+    <div class = "card text-center">
+
+        <div class = "card-header">{{ recipt.category }}</div>
+        <div class = "card-body"> <h5 class="card-title">{{ recipt.title }}</h5>
+            <img src="{{ recipt.img.url }}" class="card-img-top" alt="..." height="500px" width="30px">
+            <br><br>
+        <p class = "card-text">{{ recipt.recept_text }}</p><a href="#" class = "btn btn-primary">Подробнее</a></div>
+        <div class = "card-footer text-muted"> Дата публикации: {{ recipt.date }}</div>
+
+    </div>
+<br>
+{% endfor %}
+
