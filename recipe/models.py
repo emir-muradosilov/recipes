@@ -22,7 +22,6 @@ class Recept(models.Model):
     watched = models.IntegerField(default=0, blank=True)
     is_published = models.BooleanField(default=True, blank=True)
     category = models.ForeignKey(Category, default=1,on_delete=models.CASCADE, blank=True)
-
     # Поля title и description - технические поля для СЕО записи
     title = models.CharField(max_length=180)
     description = models.CharField (max_length=300, blank=False)
