@@ -53,7 +53,7 @@ def login_user(request):
             return render(request, 'registration\login.html', {'error':'Такого пользователя не существует'})
         else:
             login(request, user)
-            return render(request, 'home.html')
+            return redirect('home', )
     else:
         return render(request, {'error': 'Ошибка. Повторите ваш запрос позже!'})
 

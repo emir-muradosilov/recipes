@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from Recipes.settings import DEBUG
 from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -32,7 +34,7 @@ urlpatterns = [
     path('recept/', include('recipe.urls'), name='recept'),
     path('recept/', include('recipe.urls'), name='add_recipe'),
     path('recept/', include('recipe.urls'), name = 'user_recept'),
-    path('/delete_recipe/<int:pk>/', include('recipe.urls'), name='delete_recipe'),
+    path('<int:pk>/delete/', include('recipe.urls'), name='delete'),
     path('update/<int:pk>/', include('recipe.urls'), name='update'),
 #    path('update/<int:pk>/', views.ReceptUpdateView.as_view(), name='update'),
 
@@ -41,5 +43,7 @@ urlpatterns = [
     path('signup/', views.registration_user, name = 'signup'),
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
+if DEBUG == True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,20 @@
+<br><br><br>
+
+    {% for recomendat in recomendations %}
+    <div class="card text-center"><div class="card-header">{{ recomendat.category }}</div>
+        <img src="{{ recomendat.img.url }}" class="card-img-top" alt="..." height="150px">
+
+        <div class="card-body"><h5 class="card-title">{{ recomendat.title }}</h5>
+            <p class="card-text">Краткое описание</p>
+            <a href="{% url 'recept_id' recomendat.id %}" class="btn btn-primary">Подробнее</a>
+
+        </div>
+        <div class="card-footer text-muted">{{ recomendat.date }}</div>
+    </div>
+<br>
+    {% endfor %}
+
+
+
+
+

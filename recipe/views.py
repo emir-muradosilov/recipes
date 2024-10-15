@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -9,15 +10,29 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 # Create your views here.
 
 
+
 # Отображение всех рецептов
 
 
 # Отображение конкретного рецепта по id (pk)
+'''
 class ReceptDetailView(DetailView):
     #{{ object.recept_name }}
     model = Recept
     template_name = 'recipespage.html'
-
+'''
+def ReceptDetailView(request, pk):
+    try:
+        recipt = Recept.objects.get(id = pk)
+        q = recipt.watched + 1
+        Recept.objects.filter(id = pk).update(watched=q)
+        recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:3]
+#        print('Рекомендации', recomendations)
+        return render(request, 'recipespage.html', {'recipt': recipt, 'recomendations': list(recomendations), })
+    except ObjectDoesNotExist:
+        pass
+    except MultipleObjectsReturned:
+        pass
 
 # Редактирование конкретного рецепта по id (pk)
 class ReceptUpdateView(UpdateView):
@@ -30,13 +45,14 @@ class ReceptUpdateView(UpdateView):
 # Удаление конкретного рецепта по id (pk)
 class ReceptDeleteView(DeleteView):
     model = Recept
-    template_name = 'recipespage.html'
-    context_object_name = 'recept'
+    template_name = 'home.html'
+    success_url ="home.html"
+#    context_object_name = 'recept'
 
-# Отображение всех рецептов попользователя
+# Отображение всех рецептов пользователя
 def user_recept(request):
-    recepts = Recept.objects.filter(author=request.user)
-    return render(request, 'user_recept.html', {'user_recepts': recepts})
+    recipts = Recept.objects.filter(author=request.user)
+    return render(request, 'home.html', {'recipts': recipts})
 
 '''
 def recept_id(request, pk):
@@ -56,10 +72,13 @@ def recept_id(request, pk):
 
 # Удаление рецепта по id
 def delete_recipe(request, pk):
+
     recipe = Recept.objects.get(id=pk)
     if request.method == 'POST':
         recipe.delete()
-    return redirect('user_recept', )
+        return redirect('user_recept', )
+    else:
+        return redirect('home', )
 
 
 def edit_recept(request, pk):
@@ -90,29 +109,6 @@ def add_recipe(request):
 
 
 
-def first_dish(request):
-    recipe = Recept.objects.filter(category=1, is_published=True)
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
-def second_dish(request):
-    recipe = Recept.objects.filter(category=2, is_published=True)
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
-
-def salat(request):
-    recipe = Recept.objects.filter(category=5, is_published=True)
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
-def dessert(request):
-    recipe = Recept.objects.filter(category=3, is_published=True)
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
-def drinks(request):
-    recipe = Recept.objects.filter(category=4, is_published=True)
-    return render(request, 'recipes.html',
-                  {'recipe':recipe})
-
-
 def PageBuilder(request):
     recipts = Recept.objects.filter(is_published=True)
     categorys = Category.objects.filter(is_published=True)
@@ -125,7 +121,9 @@ def PageBuilder(request):
     }
     return render(request, 'home.html', {'title': "Главная страница", 'recipts': recipts, 'categorys': categorys,})
 
-
+def recomendations_method(request, kolvo:int):
+    recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:kolvo]
+    return render(request, '_post_recommendation.html',{'recomendate_recepts': recomendations})
 
 
 
