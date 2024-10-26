@@ -1,0 +1,10 @@
+<form class="d-flex" method="get" action="{% url 'search' %}">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ query }}">
+    <button class="btn btn-outline-success" type="submit">Поиск</button>
+</form>
+
+<div>
+    {% for result in results %}
+    <p>{{ result.title }}</p>
+    {% endfor %}
+</div>

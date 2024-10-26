@@ -52,7 +52,7 @@ class ReceptDeleteView(DeleteView):
 # Отображение всех рецептов пользователя
 def user_recept(request):
     recipts = Recept.objects.filter(author=request.user)
-    return render(request, 'home.html', {'recipts': recipts})
+    return render(request, 'user_recept.html', {'recipts': recipts})
 
 '''
 def recept_id(request, pk):
@@ -100,7 +100,7 @@ def add_recipe(request):
                 new_recept = form.save(commit=False)
                 new_recept.author = request.user
                 new_recept.save()
-                return redirect('recept')
+                return redirect('recept_id',new_recept.id)
         except ValueError as error:
             return render(request, 'add_recipe.html',
                           {'ReceptForms': ReceptForms, 'error': f'Ошибка. Введены некоректные данные! {error}'}, )

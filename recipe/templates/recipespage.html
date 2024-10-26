@@ -1,9 +1,8 @@
 {% extends 'base_recipe.html' %}
 
+{% load static %}
 
 {% block center-area %}
-
-
 
 <br><br>
 <div id="title">
@@ -15,8 +14,10 @@
 {% if recipt.img %}
 <img src = "{{ recipt.img.url }}" height="200px" width="300px">
 {% else %}
-<p>Нет изображения</p>
+
+<img src="{% static 'images/image001.jpg' %}" class="card-img-top" alt="{{ recipt.title }}" width="300px" height="400px">
 {% endif %}
+
 <h6>Автор: {{ recipt.author }}
     Дата: {{ recipt.date }}
     Кол-во просмотров: {{ recipt.watched}}

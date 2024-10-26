@@ -1,8 +1,12 @@
 <br><br><br>
-
+{% load static %}
     {% for recomendat in recomendations %}
     <div class="card text-center"><div class="card-header">{{ recomendat.category }}</div>
+        {% if recomendat.img %}
         <img src="{{ recomendat.img.url }}" class="card-img-top" alt="..." height="150px">
+        {% else %}
+        <img src="{% static 'images/image001.jpg' %}" class="card-img-top" alt="{{ recipt.title }}" height="150px">
+        {% endif %}
 
         <div class="card-body"><h5 class="card-title">{{ recomendat.title }}</h5>
             <p class="card-text">Краткое описание</p>

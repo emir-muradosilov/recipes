@@ -22,12 +22,15 @@ from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+from accounts.views import SearchResultsView
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('', views.PageBuilder, name='home'),
     path('<int:pk>', views.LeftMenu, name='category'),
+    path('search/', views.search, name='search'),
+#    path('search/', SearchResultsView.as_view(), name='search'),
 #    path('', include('recipe.urls'), name='home'),
 
 # Работа с рецептами
@@ -44,6 +47,5 @@ urlpatterns = [
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
 ]
-
 if DEBUG == True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

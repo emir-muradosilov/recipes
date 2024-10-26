@@ -2,12 +2,21 @@
 
 {% block center-area %}
 <br><br><br>
-{% for recipt in user_recepts %}
+{% for recipt in recipts %}
 <div class = "card text-center">
 
     <div class = "card-header">{{ recipt.category }}</div>
     <div class = "card-body"> <h5 class="card-title">{{ recipt.title }}</h5>
-        <img src="{{ recipt.img.url }}" class="card-img-top" alt="..." height="400px">
+
+        {% if recipt.img %}
+        <img src="{{ recipt.img.url }}" class="card-img-top" alt="{{ recipt.title }}" height="400px">
+        {% else %}
+        Нету изображения
+        <!---
+        <img src="media/images/image001.jpg" class="card-img-top" alt="{{ recipt.title }}" height="400px">
+        -->
+        {% endif %}
+
         <br><br>
         <p class = "card-text">{{ recipt.recept_text | truncatewords:20 }}</p><a href="{% url 'recept_id' recipt.id %}" class = "btn btn-primary">Подробнее</a></div>
     <div class = "card-footer text-muted"> Дата публикации: {{ recipt.date }}</div>

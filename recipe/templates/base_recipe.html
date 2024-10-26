@@ -1,4 +1,9 @@
+
+
 <!doctype html>
+
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +30,14 @@
                 <div class="col-6">
                     <!-- Post-->
                     {% block center-area %}
+
                     {% endblock %}
+
+                    <!--
+                    Меню кол-во страниц. По N-шт. на страницу
+                    {% include 'components/_pages.html' %}
+                    -->
+
                 </div>
                 <div class="col-2">
                     <!-- Right-->
