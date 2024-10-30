@@ -9,6 +9,8 @@ urlpatterns = [
     path('<int:pk>/', views.ReceptDetailView, name='recept_id'),
     path('user_recept', views.user_recept, name='user_recept'),
 
+    path('add_comment/<int:pk>/', views.add_comment, name='add_comment'),
+
     path('update/<int:pk>', views.ReceptUpdateView.as_view(), name='update'),
     path('<int:pk>/delete', views.delete_recipe, name='delete'),
 #    path('<int:pk>/delete/', views.ReceptDeleteView.as_view(), name='delete'),

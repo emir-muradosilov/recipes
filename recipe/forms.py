@@ -1,5 +1,5 @@
 from django.forms import ModelForm, TextInput, Textarea
-from .models import Recept
+from .models import Recept, Comment
 from django import forms
 
 
@@ -26,4 +26,16 @@ class ReceptForms(ModelForm):
                 'placeholder': 'Рецепт'
             }),
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment', )
+
+        widgets = {'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Оставьте ваш коментарий'
+            })
+            }
 

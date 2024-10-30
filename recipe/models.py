@@ -34,3 +34,16 @@ class Recept(models.Model):
     class Meta:
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+
+
+class Comment(models.Model):
+    recept = models.ForeignKey(Recept, on_delete=models.CASCADE, verbose_name='Рецепт')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    comment = models.TextField(max_length=1056, blank=True)
+    date = models.DateField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.comment
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'

@@ -40,6 +40,8 @@ urlpatterns = [
     path('<int:pk>/delete/', include('recipe.urls'), name='delete'),
     path('update/<int:pk>/', include('recipe.urls'), name='update'),
 #    path('update/<int:pk>/', views.ReceptUpdateView.as_view(), name='update'),
+    path('add_comment/<int:pk>/', include('recipe.urls'), name='add_comment'),
+
 
 # Регистрация и Аутентификация
     path('login/', views.login_user, name = 'login'),

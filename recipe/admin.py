@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Recept
-from .models import Category
+from .models import Category, Comment
 # Register your models here.
 
 class ReceptStyle(admin.ModelAdmin):
@@ -14,3 +14,7 @@ class ReceptStyle(admin.ModelAdmin):
 
 admin.site.register(Recept, ReceptStyle)
 admin.site.register(Category)
+
+admin.site.register(Comment)
+
+

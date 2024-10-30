@@ -2,8 +2,8 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from .models import Recept, Category
-from .forms import ReceptForms
+from .models import Recept, Category, Comment
+from .forms import ReceptForms, CommentForm
 
 from django.views.generic import UpdateView, DetailView, DeleteView
 
@@ -22,17 +22,37 @@ class ReceptDetailView(DetailView):
     template_name = 'recipespage.html'
 '''
 def ReceptDetailView(request, pk):
+
     try:
         recipt = Recept.objects.get(id = pk)
         q = recipt.watched + 1
         Recept.objects.filter(id = pk).update(watched=q)
         recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:3]
-#        print('Рекомендации', recomendations)
-        return render(request, 'recipespage.html', {'recipt': recipt, 'recomendations': list(recomendations), })
+        comments = Comment.objects.filter(recept=pk)
+
+        context = {
+            'recomendations': list(recomendations),
+            'CommentForm': CommentForm,
+            'comments': comments,
+            'recipt': recipt,
+        }
+        return render(request, 'recipespage.html', context)
     except ObjectDoesNotExist:
         pass
     except MultipleObjectsReturned:
         pass
+
+
+def add_comment(request, pk):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.recept = Recept.objects.get(pk=pk)
+#        comment.post = request.GET.get('comment')
+#        print('Comment', comment)
+        comment.save()
+        return redirect('recept_id', pk)
 
 # Редактирование конкретного рецепта по id (pk)
 class ReceptUpdateView(UpdateView):
@@ -95,7 +115,6 @@ def add_recipe(request):
     if request.method == 'POST':
         try:
             form = ReceptForms(request.POST, request.FILES)
-
             if form.is_valid():
                 new_recept = form.save(commit=False)
                 new_recept.author = request.user

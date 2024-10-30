@@ -1,4 +1,4 @@
-import requests
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -17,7 +17,7 @@ class SearchResultsView(ListView):
     template_name = 'search.html'
 
     def get_result(self):
-        q = self.requests.get('q')
+        q = self.get('q')
         results = Recept.objects.filter(Recept(title=q))
         return results
 
@@ -29,13 +29,12 @@ def search(request):
     else:
         results = Recept.objects.none()  # Если q пустой, возвращаем пустой QuerySet
 
-    paginator = Paginator(results, 3)  # 5 объектов на странице
     page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    paginator = paginator_method(results, 5, page_number)
 
     page = {
-        'results': page_obj,  # Здесь используем page_obj
-        'page_obj': page_obj,  # Также передаем сам объект пагинации для навигации
+        'results': paginator,  # Здесь используем page_obj
+        'page_obj': paginator,  # Также передаем сам объект пагинации для навигации
         'query': q,
     }
 
@@ -45,23 +44,33 @@ def PageBuilder(request):
     recipts = Recept.objects.filter(is_published=True).order_by('date')
     categorys = Category.objects.all()
 
-    paginator = Paginator(recipts,3)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    paginator = paginator_method(recipts,5, page_number)
+#    page_number = request.GET.get('page')
+#    page_obj = paginator.get_page(page_number)
 
     page = {
         'title': f"Главная страница",
         'recipts': recipts,
         'categorys': categorys,
-        'page_obj': page_obj,
+        'page_obj': paginator,
     }
     return render(request, 'home.html', page)
+
+def paginator_method(list:list, per_page:int, pagename=str):
+
+    paginator = Paginator(list, per_page)
+    page_number = pagename
+    page_obj = paginator.get_page(page_number)
+    return page_obj
+
+
 
 def LeftMenu(request, pk):
     recipts = Recept.objects.filter(is_published=True, category=pk)
     categorys = Category.objects.all()
 
-    paginator = Paginator(recipts,3)
+    paginator = Paginator(recipts,5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
