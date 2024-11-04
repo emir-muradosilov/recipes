@@ -22,15 +22,15 @@ from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from accounts.views import SearchResultsView
+from accounts.views import SearchResultsView, ReceptList, ReceptDetail
 
 urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('', views.PageBuilder, name='home'),
     path('<int:pk>', views.LeftMenu, name='category'),
-    path('search/', views.search, name='search'),
-#    path('search/', SearchResultsView.as_view(), name='search'),
+#    path('search/', views.search, name='search'),
+    path('search/', SearchResultsView.as_view(), name='search'),
 #    path('', include('recipe.urls'), name='home'),
 
 # Работа с рецептами
@@ -48,6 +48,13 @@ urlpatterns = [
     path('signup/', views.registration_user, name = 'signup'),
     path('logout/', views.logout_user, name = 'logout'),
     path('registration/', views.registration_user, name = 'registration'),
+
+    path('user/', views.user, name = 'user'),
+
+    #
+    path('apiresept/', ReceptList.as_view(), name='apiresept-list'),
+    path('apiresept/<int:pk>/', ReceptDetail.as_view(), name='apiresept-detail')
+
 ]
 if DEBUG == True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

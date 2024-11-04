@@ -4,7 +4,11 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.views.generic import ListView
+from rest_framework import serializers, viewsets
+from tutorial.quickstart.serializers import UserSerializer
+from rest_framework import generics
 
+from accounts.templates.serializers import ReceptSerializer
 from recipe.models import Recept, Category
 from django.core.paginator import Paginator
 
@@ -131,5 +135,26 @@ def signup(request):
         return redirect('home', )
     else:
         return render(request, {'error': 'Ошибка. Повторите ваш запрос позже!'})
+
+
+def user(request):
+    userdate = User.objects.get(username = request.user)
+
+    return render(request, 'user.html', {'userdate': userdate,})
+
+
+class ReceptList(generics.ListCreateAPIView):
+    queryset = Recept.objects.all()
+    serializer_class = ReceptSerializer
+
+# ViewSets define the view behavior.
+class ReceptDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Recept.objects.all()
+    serializer_class = ReceptSerializer
+
+
+
+
+
 
 

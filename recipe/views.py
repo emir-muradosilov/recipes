@@ -1,3 +1,4 @@
+from django.core.checks import messages
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
@@ -15,20 +16,40 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 
 
 # Отображение конкретного рецепта по id (pk)
-'''
-class ReceptDetailView(DetailView):
+
+class ClassReceptDetailView(DetailView):
+    # Класс DetailView - отображния страницы рецепта и 3 рекомендации
     #{{ object.recept_name }}
     model = Recept
-    template_name = 'recipespage.html'
-'''
-def ReceptDetailView(request, pk):
+    template_name = 'recipespage.html'  # Укажите ваш шаблон
+    context_object_name = 'recipt'  # Укажите имя контекста для текущего объекта
+    def get_object(self, queryset=None):
+        # Получаем объект рецепта по pk
+        recipt = super().get_object(queryset)
+        # Обновляем количество просмотров
+        recipt.watched += 1
+        recipt.save()
+        return recipt
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Получаем рекомендации
+        context['recomendations'] = Recept.objects.filter(is_published=True).order_by('-watched')[:3]
+        # Получаем комментарии
+        context['comments'] = Comment.objects.filter(recept=self.object.pk)
+        # Добавляем форму для комментариев
+        context['CommentForm'] = CommentForm()
+        print(context)
+        return context
 
+def ReceptDetailView(request, pk):
+    # Метод DetailView - отображния страницы рецепта и 3 рекомендации
     try:
         recipt = Recept.objects.get(id = pk)
         q = recipt.watched + 1
         Recept.objects.filter(id = pk).update(watched=q)
         recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:3]
         comments = Comment.objects.filter(recept=pk)
+#        messages.sucsess(request, 'Ваш комментарий добавлен')
 
         context = {
             'recomendations': list(recomendations),
@@ -68,6 +89,7 @@ class ReceptDeleteView(DeleteView):
     template_name = 'home.html'
     success_url ="home.html"
 #    context_object_name = 'recept'
+
 
 # Отображение всех рецептов пользователя
 def user_recept(request):
