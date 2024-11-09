@@ -114,13 +114,9 @@ def recept_id(request, pk):
 
 # Удаление рецепта по id
 def delete_recipe(request, pk):
+    recipe = Recept.objects.get(id=pk).delete()
+    return redirect('user_recept', )
 
-    recipe = Recept.objects.get(id=pk)
-    if request.method == 'POST':
-        recipe.delete()
-        return redirect('user_recept', )
-    else:
-        return redirect('home', )
 
 
 def edit_recept(request, pk):

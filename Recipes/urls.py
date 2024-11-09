@@ -30,7 +30,7 @@ urlpatterns = [
     path('', views.PageBuilder, name='home'),
     path('<int:pk>', views.LeftMenu, name='category'),
 #    path('search/', views.search, name='search'),
-    path('search/', SearchResultsView.as_view(), name='search'),
+    path('search/', views.search, name='search'),
 #    path('', include('recipe.urls'), name='home'),
 
 # Работа с рецептами

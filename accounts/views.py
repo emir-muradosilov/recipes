@@ -41,7 +41,6 @@ def search(request):
         'page_obj': paginator,  # Также передаем сам объект пагинации для навигации
         'query': q,
     }
-
     return render(request, 'search.html', page,)
 
 def PageBuilder(request):

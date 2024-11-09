@@ -4,28 +4,56 @@
 
 <br><br><br>
 
+<!-- Вывод результатов поиска -->
 
-{% for result in page_obj %}
+{% for recipt in page_obj %}
+<div class = "card text-center">
 
-<a href="{% url 'recept_id' result.id %}">{{ result }}</a>
+    <div class = "card-header">{{ recipt.category }}</div>
+    <div class = "card-body"> <h5 class="card-title">{{ recipt.title }}</h5>
+        {% if recipt.img %}
+        <img src="{{ recipt.img.url }}" class="card-img-top" alt="{{ recipt.title }}" height="400px">
+        {% else %}
+        <img src="media/images/image001.jpg" class="card-img-top" height="400px"> <br>Нет изображения
+        {% endif %}
+        <br><br>
+        <p class = "card-text">{{ recipt.recept_text | truncatewords:20 }}</p>
+
+        <div class="d-flex justify-content-center">  <!--  Добавляем класс "d-flex" и "justify-content-center" -->
+            <a href="{% url 'recept_id' recipt.id %}" class = "btn btn-primary mx-2">Подробнее</a>
+
+            {% if user.is_authenticated %}
+            {% if user == recipt.author %}
+            <a href="{% url 'update' recipt.id %}" class = "btn btn-primary mx-2">Редактировать</a>
+            <form method="post" action="{% url 'delete' recipt.id %}">
+                {% csrf_token %}
+                <button type="submit" class = "btn btn-primary mx-2">Удалить</button>
+            </form>
+            {% endif %}
+            {% endif %}
+        </div>  <!--  Закрываем div "d-flex" -->
+
+        <br><br>
+        <div class = "card-footer text-muted"> Дата создания: {{ recipt.date }}</div>
+
+    </div>
+</div>
 <br><br>
-
 {% endfor %}
+
+<!-- Постраничная Навигация - пагинатор -->
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-
-
     {% if page_obj.paginator.page_range < 2 %}
-
-    {% else %}
-        {% for p in page_obj.paginator.page_range %}
-        <li class="page-item">
-            <a href="?q={{ query }}&page={{ p }}" class="page-link">{{ p }}</a>
-        </li>
-            {% endfor %}
-    {% endif %}
-</ul>
+        {% else %}
+            {% for p in page_obj.paginator.page_range %}
+            <li class="page-item">
+                <a href="?q={{ query }}&page={{ p }}" class="page-link">{{ p }}</a>
+            </li>
+                {% endfor %}
+        {% endif %}
+    </ul>
 </nav>
 {% endblock %}
 

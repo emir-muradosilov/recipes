@@ -18,7 +18,10 @@
         {% endif %}
 
         <br><br>
-        <p class = "card-text">{{ recipt.recept_text | truncatewords:20 }}</p><a href="{% url 'recept_id' recipt.id %}" class = "btn btn-primary">Подробнее</a></div>
+        <p class = "card-text">{{ recipt.recept_text | truncatewords:20 }}</p><a href="{% url 'recept_id' recipt.id %}" class = "btn btn-primary">Подробнее</a>
+        <a href="{% url 'delete' recipt.id %}" class = "btn btn-primary">Удалить</a>
+    </div>
+
     <div class = "card-footer text-muted"> Дата публикации: {{ recipt.date }}</div>
 
 </div>
