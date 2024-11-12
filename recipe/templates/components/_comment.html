@@ -1,0 +1,62 @@
+
+<br>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>Комментарии</h4>
+                </div>
+
+                <div class="panel-body comments">
+
+
+
+                    <form method="post" action="{% url 'add_comment' recipt.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ CommentForm.comment }}
+                    <br>
+                        {% if user.is_authenticated %}
+                    <button type="submit" class="btn btn-info pull-right">Отправить</button>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    {% else %}Что бы оставить комментарий нужно:
+                    <a class="small pull-left" href="{% url 'login' %}" style="text-decoration: none;">
+                        <b>Войти</b></a>
+                            или
+                            <a class="small pull-left" href="{% url 'login' %}" style="text-decoration: none;">
+                                <b>Зарегистрироваться</b></a>
+                    {% endif %}
+                    <hr>
+
+
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="comment">
+                                {% for comment in comments %}
+                                <a href="#" class="pull-left">
+                                    <img src="{{ comment.img.url }}" alt="" class="img-circle">
+                                </a>
+                                <div class="media-body">
+                                    <strong class="text-success">{{ comment.auth }}</strong>
+                                    <span class="text-muted">
+                                 <small class="text-muted">{{ comment.date }}</small>
+                                 </span>
+                                    <p>
+                                        {{ comment.comment }}
+                                    </p>
+                                </div>
+                                {% endfor %}
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

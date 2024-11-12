@@ -1,0 +1,42 @@
+{% extends 'base_recipe.html' %}
+
+{% block center-area %}
+<br>
+<h2>Добавьте свой рецепт блюда</h2>
+{{ error }}
+<br>
+{% if user.is_authenticated %}
+
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+    <h6>Введите название рецепта</h6>
+    {{ ReceptForms.recept_name }}<br>
+    <h6>Введите название рецепта</h6>
+    {{ ReceptForms.title }}<br>
+    <h6>Введите описание рецепта</h6>
+    {{ ReceptForms.description }}<br>
+    <h6>Введите сам рецепт</h6>
+    {{ ReceptForms.recept_text }}<br>
+    <h6>Публиковать рецепт?</h6>
+    {{ ReceptForms.is_published }}<br>
+    <h6>Выберите категорию</h6>
+    {{ ReceptForms.category }}<br><br>
+    <h6>Добавьте фото готового блюда (Не обязательное поле)</h6>
+    {{ ReceptForms.img }}
+    <br><br>
+    <p><input type="submit" class="btn-new"></p>
+</form>
+
+
+{% else %}
+<h6>{{ error }}</h6>
+<br>
+<h7>Перейти на страницу Аутентификации: <a href="{% url 'login' %}" > Войти в аккаунт</a>
+<br>
+Перейти на страницу Регистрации: <a href="{% url 'signup' %}" > Зарегистрироваться</a>
+</h7>
+{% endif %}
+
+{% endblock %}
+

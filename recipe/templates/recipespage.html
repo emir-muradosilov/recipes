@@ -1,0 +1,49 @@
+{% extends 'base_recipe.html' %}
+
+{% load static %}
+
+{% block center-area %}
+
+<br><br>
+<div id="title">
+    <header>
+        <h2>{{ recipt.recept_name }}</h2> </a>
+    </header>
+</div>
+<br>
+{% if recipt.img %}
+<img src = "{{ recipt.img.url }}" height="200px" width="300px">
+{% else %}
+
+<img src="{% static 'images/image001.jpg' %}" class="card-img-top" alt="{{ recipt.title }}" width="300px" height="400px">
+{% endif %}
+
+<h6>Автор: {{ recipt.author }}
+    Дата: {{ recipt.date }}
+    Кол-во просмотров: {{ recipt.watched}}
+</h6>
+
+<br>
+<div id="details">
+    <div class="Details">
+{{ recipt.recept_text | linebreaks }}
+    </div>
+</div>
+    <br>
+
+{% if user.is_authenticated %}
+    {% if user == recipt.author %}
+
+<a href="{% url 'update' recipt.id %}" class="btn btn-primary">Редактировать</a>
+    {% endif %}
+{% endif %}
+<br>
+
+
+
+{% include 'components/_comment.html' %}
+
+
+{% endblock %}
+
+
