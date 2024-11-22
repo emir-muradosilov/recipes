@@ -9,4 +9,7 @@ class ReceptSerializer(serializers.ModelSerializer):
 
 # ViewSets define the view behavior.
 
-
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recept
+        fields = ['title', 'id']

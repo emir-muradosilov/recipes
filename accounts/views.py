@@ -8,7 +8,7 @@ from rest_framework import serializers, viewsets
 from tutorial.quickstart.serializers import UserSerializer
 from rest_framework import generics
 
-from accounts.templates.serializers import ReceptSerializer
+from accounts.templates.serializers import ReceptSerializer, CategorySerializer
 from recipe.models import Recept, Category
 from django.core.paginator import Paginator
 
@@ -43,6 +43,7 @@ def search(request):
     }
     return render(request, 'search.html', page,)
 
+
 def PageBuilder(request):
     recipts = Recept.objects.filter(is_published=True).order_by('date')
     categorys = Category.objects.all()
@@ -51,11 +52,12 @@ def PageBuilder(request):
     paginator = paginator_method(recipts,5, page_number)
 #    page_number = request.GET.get('page')
 #    page_obj = paginator.get_page(page_number)
-
+    recomendations = Recept.objects.filter(is_published = True).order_by('-watched')[:3]
     page = {
         'title': f"Главная страница",
         'recipts': recipts,
         'categorys': categorys,
+        'recomendations' : recomendations,
         'page_obj': paginator,
     }
     return render(request, 'home.html', page)
@@ -152,7 +154,14 @@ class ReceptDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReceptSerializer
 
 
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
+# ViewSets define the view behavior.
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
 

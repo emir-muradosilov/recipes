@@ -22,7 +22,7 @@ from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from accounts.views import SearchResultsView, ReceptList, ReceptDetail
+from accounts.views import SearchResultsView, ReceptList, ReceptDetail, CategoryDetail, CategoryList
 
 urlpatterns = [
 
@@ -51,9 +51,12 @@ urlpatterns = [
 
     path('user/', views.user, name = 'user'),
 
-    #
-    path('apiresept/', ReceptList.as_view(), name='apiresept-list'),
-    path('apiresept/<int:pk>/', ReceptDetail.as_view(), name='apiresept-detail')
+    # API по рецептам
+    path('apiresept/api/', ReceptList.as_view(), name='apiresept-list'),
+    path('apiresept/api/<int:pk>/', ReceptDetail.as_view(), name='apiresept-detail'),
+    # API по Категории
+    path('apicategory/api/', CategoryList.as_view(), name='apicategory-list'),
+    path('apicategory/api/<int:pk>/', CategoryDetail.as_view(), name='apicategory-detail'),
 
 ]
 if DEBUG == True:

@@ -38,7 +38,7 @@ class ClassReceptDetailView(DetailView):
         context['comments'] = Comment.objects.filter(recept=self.object.pk)
         # Добавляем форму для комментариев
         context['CommentForm'] = CommentForm()
-        print(context)
+#        print(context)
         return context
 
 def ReceptDetailView(request, pk):
@@ -158,8 +158,8 @@ def PageBuilder(request):
     }
     return render(request, 'home.html', {'title': "Главная страница", 'recipts': recipts, 'categorys': categorys,})
 
-def recomendations_method(request, kolvo:int):
-    recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:kolvo]
+def recomendations_method(request,):
+    recomendations = Recept.objects.filter(is_published=True).order_by('-watched')[:3]
     return render(request, '_post_recommendation.html',{'recomendate_recepts': recomendations})
 
 
